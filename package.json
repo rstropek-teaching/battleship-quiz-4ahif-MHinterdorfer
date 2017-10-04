@@ -6,10 +6,11 @@
   "scripts": {
     "start": "browser-sync start --server --files='*.html,*.js,*.css'"
   },
-  "author": "Rainer Stropek",
+  "author": "Michael Hinterdorfer",
   "license": "MIT",
   "dependencies": {
+    "browser-sync": "^2.18.13",
+    "jquery": "^3.2.1"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }
