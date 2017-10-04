@@ -30,23 +30,25 @@ $(() => {
     clearBattleground();
 
     //find and draw
-    createRandomPattern(carrier);
-    createRandomPattern(battleship);
-    createRandomPattern(cruiser);
-    createRandomPattern(submarine);
-    createRandomPattern(destroyer);
+    placeRandomShips(carrier);
+    placeRandomShips(battleship);
+    placeRandomShips(cruiser);
+    placeRandomShips(submarine);
+    placeRandomShips(destroyer);
   });
 
   
 
 });
 
-function createRandomPattern(length){
+function placeRandomShips(length){
   var result = [];
+  var min = 0;
+  var max = 9;
   while(result.length < length){ //do it as long as a correct pattern is found
     var randomDirection = Math.floor(Math.random()*2); // number between 0 and 1 (1 = horizontally, 0 = vertically)
-    var randomRow = Math.floor(Math.random()*9);      // random number between 0 and 9 to select a row
-    var randomColumn = Math.floor(Math.random()*9);  // random number between 0 and 9 to select a column
+    var randomRow = Math.floor(Math.random()* (max - min + 1)) + min;      // random number between 0 and 9 to select a row
+    var randomColumn = Math.floor(Math.random()* (max - min + 1)) + min;  // random number between 0 and 9 to select a column
     
     for(x = 0; x < length; x ++){
       switch(randomDirection){
@@ -88,9 +90,10 @@ function createRandomPattern(length){
       }
     }
   }
-  drawPattern(result);  //draw result
+  drawShips(result);  //draw result
 }
 
+//horizontal check for Neighbourfields
 function checkNeighboursHorizontally(row, column){
   if($('td[data-r='+row+'][data-c='+column+']').hasClass('water')){ //check if the field itself is water
     if($('td[data-r='+(row)+'][data-c='+(column-1)+']').hasClass('ship')) return false; 
@@ -104,6 +107,7 @@ function checkNeighboursHorizontally(row, column){
   }
 }
 
+//vertical check for Neighbourfields
 function checkNeighboursVertically(row, column){
   if($('td[data-r='+row+'][data-c='+column+']').hasClass('water')){
     if($('td[data-r='+(row-1)+'][data-c='+(column)+']').hasClass('ship')) return false;
@@ -117,6 +121,7 @@ function checkNeighboursVertically(row, column){
   }
 }
 
+//check every neighbour
 function checkFirst(row, column){
   if($('td[data-r='+row+'][data-c='+column+']').hasClass('water')){
     if($('td[data-r='+(row-1)+'][data-c='+(column)+']').hasClass('ship')) return false;
@@ -133,7 +138,7 @@ function checkFirst(row, column){
   }
 }
 
-function drawPattern(array){
+function drawShips(array){
   for(let i = 0; i < array.length; i++){
     $(array[i]).removeClass('water').addClass('ship');
   }
